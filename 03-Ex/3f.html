@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>3f</title>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+        function Counter({ count, setCount, time, setTime }) {
+
+
+            function updateCount() {
+                setCount(count + 1);
+                if (count + 1 === 1) {
+                    setTime("time")
+                }
+            }
+            return (
+                <>
+                    <button onClick={updateCount} >Clicked {count} {time}</button>
+                </>
+            );
+        }
+
+        function App() {
+            const [count, setCount] = React.useState(0);
+            const [time, setTime] = React.useState("times")
+
+            function updateCount() {
+                setCount(count + 1);
+                if (count + 1 === 1) {
+                    setTime("time")
+                }
+            }
+
+            function resetToZero() {
+                setCount(0);
+                setTime('times')
+            }
+            return (
+                <>
+                    <Counter count={count} setCount={setCount} time={time} setTime={setTime} />
+                    <button onClick={updateCount} >Clicked {count} {time}</button>
+                    <button onClick={resetToZero} count={count} setCount={setCount} time={time} setTime={setTime} >Reset</button>
+                </>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+    </script>
+</body>
+
+</html>
