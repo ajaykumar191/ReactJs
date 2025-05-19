@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>4a</title>
+    <style>
+        .turn-on {
+            background-color: rgb(25, 135, 84);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+        function Buttons() {
+
+            return (
+                <button className="turn-on">ON</button>
+            )
+        }
+
+        function App() {
+            return (
+                <>
+                    <Buttons />
+                </>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+    </script>
+</body>
+
+</html>

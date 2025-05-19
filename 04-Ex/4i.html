@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>4i</title>
+    <style>
+        .container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            margin: 5px;
+            background-color: rgb(25, 135, 84);
+            color: white;
+            border: none;
+            padding: 10px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+
+
+        function App() {
+            const [count, setCount] = React.useState(0);
+            function increment() {
+                setCount(count + 1);
+            }
+            function reset() {
+                setCount(0);
+            }
+
+            let intervalId;
+            function autoincrement() {
+                intervalId = setInterval(() => {
+                    setCount(count => count + 1);
+                    console.log("The countn is " + count);
+
+                }, 1000);
+            }
+
+            function stop() {
+                console.log(intervalId);
+
+            }
+            return (
+                <div className="container">
+                    <button onClick={increment}>Clicked {count} time </button>
+                    <button onClick={reset} >Reset</button>
+                    <button onClick={autoincrement}>Auto Click</button>
+                    <button onClick={stop}>stop</button>
+                </div>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+    </script>
+</body>
+
+</html>

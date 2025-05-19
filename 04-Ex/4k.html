@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>3k</title>
+    <title>4k</title>
     <style>
         body {
             font-family: Roboto, Arial;
@@ -83,6 +83,10 @@
 
         .welcome-text {
             text-align: center;
+        }
+
+        .loading-image {
+            height: 25px;
         }
     </style>
 </head>
@@ -199,7 +203,7 @@
                     )}
 
                     <div className="chat-message-text">
-                        {message}
+                        {message ? message : <img className="loading-image" src="loading-spinner.gif" alt="Loading..." />}
 
                     </div>
 
@@ -248,19 +252,13 @@
                             );
                         })
                     }
-                    {
-                        loading && (
+                    {loading && (
+                        <ChatMessage
 
-                            <ChatMessage
-                                message="Loading..."
-                                sender="robot"
-
-                            />
-
-                        )
-
-                    }
-
+                            sender="robot"
+                            loadingImage="loading-spinner.gif"
+                        />
+                    )}
                 </div>
             )
 
