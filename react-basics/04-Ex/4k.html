@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Chatbot</title>
+    <title>4k</title>
     <style>
         body {
             font-family: Roboto, Arial;
@@ -80,6 +80,14 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
+
+        .welcome-text {
+            text-align: center;
+        }
+
+        .loading-image {
+            height: 25px;
+        }
     </style>
 </head>
 
@@ -99,7 +107,7 @@
 
 
 
-        function ChatInput({ chatMessages, setChatMessages }) {
+        function ChatInput({ chatMessages, setChatMessages, loading, setLoading }) {
 
             const [inputText, setInputText] = React.useState('');
 
@@ -109,7 +117,11 @@
 
             }
 
-            function sendMessage() {
+            async function sendMessage() {
+
+                setLoading(true);
+                console.log(loading);
+
                 const newChatMessages = [
                     ...chatMessages,
                     {
@@ -122,8 +134,10 @@
                     }
                 ]
                 setChatMessages(newChatMessages);
+                setInputText('')
 
-                const response = Chatbot.getResponse(inputText);
+
+                const response = await Chatbot.getResponseAsync(inputText);
                 setChatMessages([
                     ...newChatMessages,
                     {
@@ -137,26 +151,28 @@
                 ]);
 
 
-                setInputText('')
 
-               
+                console.log(loading);
+                setLoading(false);
+
+
 
 
             }
-             function textOnKeyDown(event) {
+            function textOnKeyDown(event) {
 
-                    if (event.code === "Enter") {
-                        sendMessage();
-                    }
+                if (event.code === "Enter") {
+                    sendMessage();
+                }
 
-                    if (event.code === "Escape") {
-                        setInputText('')
-
-                    }
-
-
+                if (event.code === "Escape") {
+                    setInputText('')
 
                 }
+
+
+
+            }
             return (
                 <div className="chat-input-container">
 
@@ -174,19 +190,20 @@
             )
         }
 
-        function ChatMessage({ message, sender }) {
+        function ChatMessage({ message, sender, loading, setLoading }) {
 
             return (
                 <div className={sender === 'user'
                     ? 'chat-message-user'
                     : 'chat-message-robot'
                 }>
+
                     {sender === 'robot' && (
                         <img src="robot.png" alt="" width="50px" />
                     )}
 
                     <div className="chat-message-text">
-                        {message}
+                        {message ? message : <img className="loading-image" src="loading-spinner.gif" alt="Loading..." />}
                     </div>
 
 
@@ -198,7 +215,7 @@
 
         }
 
-        function ChatMessages({ chatMessages }) {
+        function ChatMessages({ chatMessages, loading, setLoading }) {
 
             const chatMessagesRef = React.useRef(null);
 
@@ -219,36 +236,58 @@
                     {
                         chatMessages.map((chatMessage) => {
                             return (
+
+
                                 <ChatMessage
                                     message={chatMessage.message}
                                     image={chatMessage.image}
                                     sender={chatMessage.sender}
                                     key={chatMessage.id}
+                                    loading={loading}
+                                    setLoading={setLoading}
                                 />
+
+
                             );
                         })
                     }
+                    {loading && (
+                        <ChatMessage
+
+                            sender="robot"
+                            loadingImage="loading-spinner.gif"
+                        />
+                    )}
                 </div>
             )
 
         }
         function App() {
+
+            const [loading, setLoading] = React.useState(false);
             const [chatMessages, setChatMessages] = React.useState([
             ]);
 
+
             return (
                 <div className="app-container">
-
+                    {chatMessages.length === 0 && <p className="welcome-text" >Welcome to the chatbot project! Send a message using the textbox below.</p>}
 
                     <ChatMessages
                         chatMessages={chatMessages}
+                        loading={loading}
+                        setLoading={setLoading}
 
                     />
+
+
 
 
                     <ChatInput
                         chatMessages={chatMessages}
                         setChatMessages={setChatMessages}
+                        loading={loading}
+                        setLoading={setLoading}
                     />
 
 
