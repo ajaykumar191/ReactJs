@@ -147,3 +147,7 @@
   width: 26px;
   text-align: center;
 }
+
+.orders-text-underlined:active {
+  text-decoration: underline;
+}
